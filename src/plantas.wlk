@@ -1,6 +1,7 @@
 import pachamama.*
 import wollok.game.*
 
+
 class Maiz {
 
 	var property mix
@@ -49,6 +50,16 @@ class Maiz {
 		return true
 	}
 	method ofrendaPachamama(){}
+	
+	method valorDeMercado() {
+		return if (self.estaLista()) {
+			0
+		} else {
+			self.precio() * 0.8
+		}
+	}
+	
+
 }
 
 class Trigo {
@@ -94,6 +105,14 @@ class Trigo {
 		return true
 	}
 	method ofrendaPachamama(){}
+	
+	method valorDeMercado() {
+		return if (self.estaLista()) {
+			0
+		} else {
+			self.precio() * 0.8
+		}
+	}
 }
 
 class Tomaco {
@@ -129,5 +148,33 @@ class Tomaco {
 	method esPlanta() {
 		return true
 	}
+	
 	method ofrendaPachamama(){}
+	
+	method valorDeMercado() {
+		return if (self.estaLista()) {
+			0
+		} else {
+			self.precio() * 0.8
+		}
+	}
+}
+
+class TrigoEnano inherits Trigo{
+	
+	var property estaEscarchado = true
+	
+	override method precio() {
+	    return super() + 120
+	}
+	
+	override method regar() {
+		var sumar = if(pachamama.estaAgradecida()){2}else{1}
+		etapa =  (etapa + sumar).min(3)
+		self.estaEscarchado(false)
+	}
+	
+	
+	
+	
 }

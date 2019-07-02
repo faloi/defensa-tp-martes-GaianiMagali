@@ -1,6 +1,105 @@
+import toni.*
+import plantas.*
+import wollok.game.*
+import pachamama.*
 
-test "testX" {
+test "Primera Prueba" {
+	var enanito = new TrigoEnano()
+	game.addVisual(toni)
+	toni.sembrar(enanito)
+	enanito.regar()
+	enanito.regar()
+	assert.equals(220, enanito.precio())
+	enanito.regar()
+	assert.equals(320, enanito.precio())
+}
+
+test "Segunda Prueba" {
+	var enanito = new TrigoEnano()
+	enanito.estaEscarchado()
+	enanito.regar()
+	assert.equals(false, enanito.estaEscarchado())
+}
+
+test "Valor del mercado : Trigo enano" {
+	var enanito = new TrigoEnano()
+	enanito.regar()
+	assert.equals(false, enanito.estaLista())
+	assert.equals(96, enanito.valorDeMercado())
+	enanito.regar()
+	assert.equals(true, enanito.estaLista())
+	assert.equals(0, enanito.valorDeMercado())
+}
+
+test "Valor del mercado : Trigo " {
+	var trigo = new Trigo()
+	trigo.regar()
+	assert.equals(0, trigo.valorDeMercado())
+	trigo.regar()
+	assert.equals(0, trigo.valorDeMercado())
 	
-	assert.that(true)
+}
 
+test "Valor del mercado : Maiz " {
+	var maiz = new Maiz()
+	assert.equals(120, maiz.valorDeMercado())
+	pachamama.llover()
+	assert.equals(144, maiz.valorDeMercado())
+	maiz.regar()
+	assert.equals(true, maiz.estaLista())
+	assert.equals(0, maiz.valorDeMercado())	
+}
+
+test "Valor del mercado : Tomaco " {
+	var tomaco = new Tomaco()
+	assert.equals(true, tomaco.estaLista())
+	assert.equals(0, tomaco.valorDeMercado())	
+	pachamama.llover()
+	assert.equals(64, tomaco.valorDeMercado())
+
+}
+
+test "Le conviene cosechar: Plantas listas"{
+	var enanito = new TrigoEnano()
+	enanito.regar()
+	enanito.regar()
+	assert.equals(true, enanito.estaLista())
+	
+	var trigo = new Trigo()
+	trigo.regar()
+	trigo.regar()
+	assert.equals(true, trigo.estaLista())
+	
+	var maiz = new Maiz()
+	maiz.regar()
+	maiz.regar()
+	assert.equals(true, maiz.estaLista())
+	
+	var tomaco = new Tomaco()
+	assert.equals(true, tomaco.estaLista())
+	
+	game.addVisual(toni)
+	assert.equals(true, toni.convieneCosechar())
+}
+
+test "Le conviene cosechar: Plantas no listas y listas"{
+	var enanito = new TrigoEnano()
+	enanito.regar()
+	assert.equals(false, enanito.estaLista())
+	
+	var maiz = new Maiz()
+	assert.equals(false, maiz.estaLista())
+	
+	var trigo = new Trigo()
+	trigo.regar()
+	trigo.regar()
+	assert.equals(true, trigo.estaLista())
+	
+	
+	var tomaco = new Tomaco()
+	assert.equals(true, tomaco.estaLista())
+	
+	toni.plantasSembradas([enanito,maiz,trigo,tomaco]) 
+	
+	assert.equals(false, toni.convieneCosechar())
 }

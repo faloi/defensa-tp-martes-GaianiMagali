@@ -7,13 +7,18 @@ object toni {
 	var x = 0
 	var y = 0
 	var property position = game.at(x, y)
-	var plantasSembradas = []
+	var property plantasSembradas = []
 	var property plantasCosechables = []
 	var monedasDeOro = 0
 	var backUpPosicion = game.at(x, y)
 	var bkX = 0
 	var bkY = 0
 	var plantaASembrar = "Maiz"
+	
+	
+	method convieneCosechar(){
+		return plantasSembradas.all{p => p.estaLista()}
+	}
 
 	method howAreYou() {
 		return "Tengo " + monedasDeOro + " monedas de oro , me quedan " + self.cantidadParaVender() + " planta" + if(self.cantidadParaVender()>1){"s"}else{""} + " para vender" + " y " + self.cantPlantasSembradas() + " sembradas"
