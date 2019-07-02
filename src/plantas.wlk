@@ -169,8 +169,7 @@ class TrigoEnano inherits Trigo{
 	}
 	
 	override method regar() {
-		var sumar = if(pachamama.estaAgradecida()){2}else{1}
-		etapa =  (etapa + sumar).min(3)
+		super()
 		self.estaEscarchado(false)
 	}
 	
