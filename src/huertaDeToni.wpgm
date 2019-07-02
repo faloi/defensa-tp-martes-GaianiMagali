@@ -1,0 +1,68 @@
+import wollok.game.*
+import toni.*
+import plantas.*
+import pachamama.*
+import mercado.*
+
+program huertaDeToni {
+	game.title("GrupoAsus..El Mejor ;)" )
+	game.width(10)
+	game.height(10)
+	game.ground("tierra.png")
+	game.addVisual(toni)
+	game.addVisual(pachamama)
+ /*-------------------------Caminar y sembrar--------------------------- */
+	keyboard.up().onPressDo({ toni.up() })
+	keyboard.down().onPressDo({ toni.down() })
+	keyboard.right().onPressDo({ toni.right() })
+	keyboard.left().onPressDo({ toni.left() })
+	keyboard.m().onPressDo({ toni.sembrar(toni.crearPlantaTipo("Maiz")) })
+	keyboard.t().onPressDo({ toni.sembrar(toni.crearPlantaTipo("Trigo")) })
+	keyboard.o().onPressDo({ toni.sembrar(toni.crearPlantaTipo("Tomaco")) })
+		/*---------------------------------REGAR--------------------------------*/
+		/* regar todas */
+	keyboard.a().onPressDo({ toni.regarLasPlantas() })
+		/*regar la que esta en su posicion */
+	keyboard.r().onPressDo({ toni.regarPlanta() })
+		/* --------------------------cosechar------------------------------------ */
+	keyboard.x().onPressDo({ toni.cosecharTodo()})
+	keyboard.c().onPressDo({ toni.cosechar()})
+		/*-----------------------------vender----------------------------------- */
+	keyboard.v().onPressDo({ toni.venderTodo() })
+    keyboard.space().onPressDo({ game.say(toni,toni.howAreYou())})
+		/* ----------------------------- la Pachamama----------------------------- */
+	keyboard.f().onPressDo({ 
+		pachamama.fumigar()
+	})
+	keyboard.l().onPressDo({ 
+		pachamama.llover()
+	})
+		/*-----------------------------validaciones-------------------------------- */
+		/*-------------------------------bonus(mercado)---------------------------- */
+	var mercado1 = new Mercado(monedas = 500)
+	var mercado2 = new Mercado(monedas = 4000)
+	var mercado3 = new Mercado(monedas = 20000)
+	game.addVisualIn(mercado1, game.at(5, 5))
+	game.addVisualIn(mercado2, game.at(5, 6))
+	game.addVisualIn(mercado3, game.at(5, 7))
+		/*------------------------------bonus(pacman)------------------------------ */
+		/*------------------bonus Facilidades para sembrar maiz-------------------- */
+	keyboard.num1().onPressDo({ toni.cambiarPlantaASembrar("Maiz") })
+	keyboard.num2().onPressDo({ toni.cambiarPlantaASembrar("Trigo") })
+	keyboard.num3().onPressDo({ toni.cambiarPlantaASembrar("Tomaco") })
+	keyboard.h().onPressDo({ toni.sembrarVoH(true) })
+	keyboard.j().onPressDo({ toni.sembrarVoH(false) })
+	keyboard.k().onPressDo({ toni.cosecharVoH(true) })
+	keyboard.i().onPressDo({ toni.cosecharVoH(false) })
+		/*-----------------------bonus(ofrenda pachamama)-------------------------- */
+	game.whenCollideDo(pachamama, { p =>
+		try{
+			if(not p.esPlanta()){
+				p.ofrendaPachamama()
+			}
+		}catch e{
+			console.println(e)
+		}
+	})
+	game.start()
+}
